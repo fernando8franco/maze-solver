@@ -14,8 +14,6 @@ def main():
         win
     )
 
-    maze._create_cells()
-
     win.wait_for_close()
 
 if __name__=="__main__":
