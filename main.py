@@ -1,4 +1,4 @@
-from graphics import Window
+from graphics import Window, Point
 from cell import Cell
 
 def main():
@@ -9,7 +9,7 @@ def main():
     cell.draw(50, 50, 100, 100)
     cell2.draw(100, 50, 150, 100)
 
-    cell.draw_move(cell2)
+    cell.draw_move(cell2, True)
 
     win.wait_for_close()
 
