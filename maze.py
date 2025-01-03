@@ -63,8 +63,8 @@ class Maze:
     def _break_entrance_and_exit(self):
         self._cells[0][0].has_left_wall = False
         self._draw_cell(0, 0)
-        self._cells[self.num_cols - 1][self.num_rows - 1].has_right_wall = False
-        self._draw_cell(self.num_cols - 1, self.num_rows - 1)
+        self._cells[self.num_rows - 1][self.num_cols - 1].has_right_wall = False
+        self._draw_cell(self.num_rows - 1, self.num_cols - 1)
 
     def _break_walls_r(self, i, j):
         self._cells[i][j]._visited = True
@@ -72,37 +72,35 @@ class Maze:
         while True:
             adjacent = []
 
-            if j - 1 >= 0 and not self._cells[i][j - 1]._visited:
-                adjacent.append(("left", (i, j - 1)))
+            if j > 0 and not self._cells[i][j - 1]._visited:
+                adjacent.append((i, j - 1))
             
-            if j + 1 < self.num_rows and not self._cells[i][j + 1]._visited:
-                adjacent.append(("right", (i, j + 1)))
+            if j < self.num_cols - 1 and not self._cells[i][j + 1]._visited:
+                adjacent.append((i, j + 1))
 
-            if i - 1 >= 0 and not self._cells[i - 1][j]._visited:
-                adjacent.append(("top", (i - 1, j)))
-                
-            if i + 1 < self.num_cols and not self._cells[i + 1][j]._visited:
-                adjacent.append(("bottom", (i + 1, j)))
+            if i > 0 and not self._cells[i - 1][j]._visited:
+                adjacent.append((i - 1, j))
+
+            if i < self.num_rows - 1 and not self._cells[i + 1][j]._visited:
+                adjacent.append((i + 1, j))
 
             if not adjacent:
                 self._draw_cell(i, j)
                 return
 
-            direction = adjacent[random.randrange(0, len(adjacent))]
-            wall = direction[0]
-            c = direction[1]
+            direction = adjacent[random.randrange(len(adjacent))]
 
-            if wall == "left":
-                self._cells[i][j].has_left_wall = False
-                self._cells[c[0]][c[1]].has_right_wall = False
-            if wall == "right":
-                self._cells[i][j].has_right_wall = False
-                self._cells[c[0]][c[1]].has_left_wall = False
-            if wall == "top":
+            if direction[0] == i - 1:
                 self._cells[i][j].has_top_wall = False
-                self._cells[c[0]][c[1]].has_bottom_wall = False
-            if wall == "bottom":
+                self._cells[i - 1][j].has_bottom_wall = False
+            if direction[0] == i + 1:
                 self._cells[i][j].has_bottom_wall = False
-                self._cells[c[0]][c[1]].has_top_wall = False
+                self._cells[i + 1][j].has_top_wall = False
+            if direction[1] == j - 1:
+                self._cells[i][j].has_left_wall = False
+                self._cells[i][j - 1].has_right_wall = False
+            if direction[1] == j + 1:
+                self._cells[i][j].has_right_wall = False
+                self._cells[i][j + 1].has_left_wall = False
 
-            self._break_walls_r(c[0], c[1])
+            self._break_walls_r(direction[0], direction[1])
