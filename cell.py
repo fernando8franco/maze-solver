@@ -51,6 +51,9 @@ class Cell:
             self._win.draw_line(line, "white")
 
     def draw_move(self, to_cell, undo=False):
+        if not self._win:
+            return 
+
         line = Line(Cell.get_mid_point(self), Cell.get_mid_point(to_cell))
 
         fill_color = "red"

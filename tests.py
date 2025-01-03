@@ -64,6 +64,15 @@ class Tests(unittest.TestCase):
                     m1._cells[i][j]._visited,
                     False,
                 )
+
+    def test_resolve(self):
+        num_cols = 12
+        num_rows = 16
+        m1 = Maze(0, 0, num_rows, num_cols, 10, 10, None, 8)
+        self.assertEqual(
+            m1.solve(),
+            True,
+        )
                 
 
 if __name__ == "__main__":
